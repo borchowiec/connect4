@@ -1,3 +1,7 @@
+"""
+Zawiera funkcje umożliwiające symulowanie pewnych sytuacji.
+"""
+
 import sys
 
 from board import is_column_valid, make_move, find_fours
@@ -6,10 +10,18 @@ from properties import BOARD_WIDTH, BOARD_HEIGHT, PLAYER, ENEMY
 
 
 def get_full_board():
+    """
+    :return: Pełna plansza.
+    """
     return [[PLAYER for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
 
 
 def get_game_over_board(winner):
+    """
+    Tworzy planszę w której wygrywa podany gracz.
+    :param winner: Gracz który wygra w wygenerowanej planszy.
+    :return: Plansza w której podany gracz wygrywa.
+    """
     board = [[' ' for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
     for i in range(4):
         board[BOARD_HEIGHT - 1][i] = winner
@@ -17,6 +29,12 @@ def get_game_over_board(winner):
 
 
 def make_enemy_move(pygame, board):
+    """
+    Oddaje kontrolę nad ruchami przeciwnika. Można zamienić tą funkcję z funkcją enemy_turn()
+    :param pygame:
+    :param board:
+    :return: Planszę z wykonanym ruchem oraz, True jeśli wykonany ruch wygrał.
+    """
     # wait for interaction
     while True:
         for event in pygame.event.get():

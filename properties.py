@@ -1,3 +1,7 @@
+"""
+Zawiera właściwości gry.
+"""
+
 FIELD_SIZE = 80
 GAP = 15
 BOARD_WIDTH = 7

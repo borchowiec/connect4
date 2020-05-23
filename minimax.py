@@ -1,8 +1,18 @@
+"""
+Zawiera algorytm minimax.
+"""
+
 from board import *
 from random import shuffle
 
 
 def minimax(board, depth):
+    """
+    Zwraca ruch wykonany przez przeciwnika.
+    :param board: Aktualna plansza.
+    :param depth: Głębokość algorytmu.
+    :return: Ruch wykonany przez przeciwnika.
+    """
     possible_moves = get_possible_moves(board)
     shuffle(possible_moves)
     best_move = possible_moves[0]

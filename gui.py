@@ -1,3 +1,7 @@
+"""
+Zawiera funkcje które rysują elementy gry.
+"""
+
 import sys
 
 import pygame
@@ -9,11 +13,21 @@ font = pygame.font.SysFont("comicsansms", FONT_SIZE)
 
 
 def get_clicked_column(pos):
+    """
+    Na podstawie pozycji kliknięcia które zostało przesłane, wylicza która kolumna została kliknięta.
+    :param pos: Pozycja kliknięcia myszki.
+    :return: Number klikniętej kolumny.
+    """
     x, y = pos
     return int(x // (FIELD_SIZE + GAP + GAP / BOARD_WIDTH))
 
 
 def paint_board(board):
+    """
+    Rysuje przesłaną planszę.
+    :param board: Plansza która będzie narysowana.
+    """
+
     # background
     screen.fill((0, 150, 255))
 
@@ -40,6 +54,12 @@ def paint_board(board):
 
 
 def game_over(board, message):
+    """
+    Rysuje planszę wraz z komunikatem.
+    :param board: Plansza która będzie narysowana.
+    :param message: Wiadomość która zostanie wypisana na ekranie.
+    :return:
+    """
     # print message and wait
     paint_board(board)
     text = font.render(message, True, (0, 0, 0))
