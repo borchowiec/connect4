@@ -1,4 +1,3 @@
-from devtools import make_enemy_move
 from gui import *
 from minimax import *
 
@@ -50,7 +49,6 @@ def gameplay():
 
         # Enemy
         board, enemy_victory = enemy_turn(board)
-        #board, enemy_victory = make_enemy_move(pygame, board)
         if enemy_victory:
             game_over(board, "Wygrywa przeciwnik!")
             board = init()
