@@ -2,6 +2,7 @@
 Plik startowy. Zawiera funkcje związane z gameplayem np wykonywanie ruchów.
 """
 import sys
+import pygame
 import properties
 import gui
 import minimax
@@ -20,11 +21,11 @@ def player_turn(current_board):
     """
     # wait for interaction
     while True:
-        for event in gui.pygame.event.get():
-            if event.type == gui.pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 sys.exit(0)
-            elif event.type == gui.pygame.MOUSEBUTTONUP:
-                move = gui.get_clicked_column(gui.pygame.mouse.get_pos())
+            elif event.type == pygame.MOUSEBUTTONUP:
+                move = gui.Gui.get_clicked_column(pygame.mouse.get_pos())
 
                 if 0 <= move < properties.BOARD_WIDTH and board.is_column_valid(current_board, move):
                     current_board, row, col = board.make_move(current_board, move, properties.PLAYER)
@@ -48,30 +49,35 @@ def main():
     """
     Funkcja startująca grę. Zawiera główną pętlę.
     """
+
+    pygame.init()
+    screen = pygame.display.set_mode((properties.SCREEN_WIDTH, properties.SCREEN_HEIGHT))
+    font = pygame.font.SysFont("comicsansms", properties.FONT_SIZE)
     current_board = board.create_empty_board()
+    gui_tools = gui.Gui(screen, font, pygame)
 
     # Main loop
     while True:
-        gui.paint_board(current_board)
+        gui_tools.paint_board(current_board)
 
         # Draw
         if board.is_board_full(current_board):
-            gui.game_over(current_board, "Remis!")
+            gui_tools.game_over(current_board, "Remis!")
             current_board = board.create_empty_board()
             continue
 
         # Player
         current_board, player_victory = player_turn(current_board)
         if player_victory:
-            gui.game_over(current_board, "Wygrywa gracz!")
+            gui_tools.game_over(current_board, "Wygrywa gracz!")
             current_board = board.create_empty_board()
             continue
-        gui.paint_board(current_board)
+        gui_tools.paint_board(current_board)
 
         # Enemy
         current_board, enemy_victory = enemy_turn(current_board)
         if enemy_victory:
-            gui.game_over(current_board, "Wygrywa przeciwnik!")
+            gui_tools.game_over(current_board, "Wygrywa przeciwnik!")
             current_board = board.create_empty_board()
             continue
 
