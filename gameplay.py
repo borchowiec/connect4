@@ -51,6 +51,7 @@ def main():
     """
 
     pygame.init()
+
     screen = pygame.display.set_mode((properties.SCREEN_WIDTH, properties.SCREEN_HEIGHT))
     font = pygame.font.SysFont("comicsansms", properties.FONT_SIZE)
     current_board = board.create_empty_board()
