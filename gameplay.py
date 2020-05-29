@@ -44,7 +44,7 @@ def enemy_turn(current_board):
     return current_board, enemy_victory
 
 
-def gameplay():
+def main():
     """
     Funkcja startująca grę. Zawiera główną pętlę.
     """
@@ -76,4 +76,5 @@ def gameplay():
             continue
 
 
-gameplay()
+if __name__ == '__main__':
+    main()
