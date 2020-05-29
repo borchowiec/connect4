@@ -288,7 +288,7 @@ def evaluate(board, player):
     opponent_score, opponent_fours = evaluate_player(board, opponent)
 
     if opponent_fours > 0:
-        return float('-inf')
+        return -1e500
     return player_score - opponent_score
 
 

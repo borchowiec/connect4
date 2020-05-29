@@ -17,10 +17,10 @@ def minimax(current_board, depth):
     possible_moves = board.get_possible_moves(current_board)
     random.shuffle(possible_moves)
     best_move = possible_moves[0]
-    best_score = float("-inf")
+    best_score = -1e500
 
-    alpha = float("-inf")
-    beta = float("inf")
+    alpha = -1e500
+    beta = 1e500
 
     for move in possible_moves:
         temp_board = board.make_move(current_board, move, properties.ENEMY)[0]
@@ -38,7 +38,7 @@ def minimize(current_board, depth, alpha, beta):
         return board.evaluate(current_board, properties.ENEMY)
 
     for move in possible_moves:
-        score = float("inf")
+        score = 1e500
         if alpha < beta:
             temp_board = board.make_move(current_board, move, properties.PLAYER)[0]
             score = maximize(temp_board, depth - 1, alpha, beta)
@@ -54,7 +54,7 @@ def maximize(current_board, depth, alpha, beta):
         return board.evaluate(current_board, properties.ENEMY)
 
     for move in possible_moves:
-        score = float("-inf")
+        score = -1e500
         if alpha < beta:
             temp_board = board.make_move(current_board, move, properties.ENEMY)[0]
             score = minimize(temp_board, depth - 1, alpha, beta)
