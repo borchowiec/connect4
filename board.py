@@ -2,8 +2,8 @@
 Zawiera funkcje które operują na planszy.
 """
 
-from copy import deepcopy
-from properties import BOARD_WIDTH, BOARD_HEIGHT, PLAYER, ENEMY
+import copy
+import properties
 
 
 def create_empty_board():
@@ -11,7 +11,7 @@ def create_empty_board():
     Tworzy pustą tablicę o wymiarach określonych w properties.py
     :return: Pusta plansza
     """
-    return [[' ' for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
+    return [[' ' for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
 
 
 def is_column_valid(board, col):
@@ -32,7 +32,7 @@ def get_possible_moves(board):
     :param board: Plansza która będzie sprawdzana
     :return: Listę możliwych ruchów
     """
-    return [col for col in range(BOARD_WIDTH) if is_column_valid(board, col)]
+    return [col for col in range(properties.BOARD_WIDTH) if is_column_valid(board, col)]
 
 
 def make_move(board, col, player):
@@ -43,11 +43,11 @@ def make_move(board, col, player):
     :param player: Gracz który wykona ruch.
     :return: Planszę z wykonanym ruchem. Plansza jest kopią.
     """
-    copy = deepcopy(board)
+    board_copy = copy.deepcopy(board)
     for row in range(5, -1, -1):
-        if copy[row][col] == ' ':  # szuka od dołu pustego pola
-            copy[row][col] = player
-            return copy, row, col
+        if board_copy[row][col] == ' ':  # szuka od dołu pustego pola
+            board_copy[row][col] = player
+            return board_copy, row, col
 
 
 def is_board_full(board):
@@ -56,7 +56,7 @@ def is_board_full(board):
     :param board: Plansza która będzie sprawdzana
     :return: True, jeśli plansza jest pełna
     """
-    for col in range(BOARD_WIDTH):
+    for col in range(properties.BOARD_WIDTH):
         if board[0][col] == ' ':  # jeśli wszystkie pola na samej górze planszy nie są pełne, to plansza jest pełna
             return False
     return True
@@ -76,7 +76,7 @@ def find_fours(board, prev_row, prev_col, player):
     count = 0
 
     # vertical
-    for y in range(prev_row, BOARD_HEIGHT):  # w tym przypadku wystarczy policzyć od ostatniego ruchu, w dół
+    for y in range(prev_row, properties.BOARD_HEIGHT):  # w tym przypadku wystarczy policzyć od ostatniego ruchu, w dół
         if board[y][prev_col] == player:
             count += 1
         else:
@@ -94,7 +94,7 @@ def find_fours(board, prev_row, prev_col, player):
     # horizontal
     # right
     count = 0
-    for x in range(prev_col, BOARD_WIDTH):
+    for x in range(prev_col, properties.BOARD_WIDTH):
         if board[prev_row][x] == player:
             count += 1
         else:
@@ -108,7 +108,7 @@ def find_fours(board, prev_row, prev_col, player):
     # capitalize
     if count >= 4:
         # right
-        for x in range(prev_col, BOARD_WIDTH):
+        for x in range(prev_col, properties.BOARD_WIDTH):
             if board[prev_row][x] == player:
                 board[prev_row][x] = board[prev_row][x].upper()
             else:
@@ -124,7 +124,7 @@ def find_fours(board, prev_row, prev_col, player):
     # /
     # right
     count = 0
-    for x in range(prev_col, BOARD_WIDTH):
+    for x in range(prev_col, properties.BOARD_WIDTH):
         y = prev_row - (x - prev_col)
         if y >= 0 and board[y][x] == player:
             count += 1
@@ -133,13 +133,13 @@ def find_fours(board, prev_row, prev_col, player):
     # left
     for x in range(prev_col - 1, -1, -1):
         y = prev_row + (prev_col - x)
-        if y < BOARD_HEIGHT and board[y][x] == player:
+        if y < properties.BOARD_HEIGHT and board[y][x] == player:
             count += 1
         else:
             break
     # capitalize
     if count >= 4:
-        for x in range(prev_col, BOARD_WIDTH):
+        for x in range(prev_col, properties.BOARD_WIDTH):
             y = prev_row - (x - prev_col)
             if y >= 0 and board[y][x] == player:
                 board[y][x] = board[y][x].upper()
@@ -148,7 +148,7 @@ def find_fours(board, prev_row, prev_col, player):
         # left
         for x in range(prev_col - 1, -1, -1):
             y = prev_row + (prev_col - x)
-            if y < BOARD_HEIGHT and board[y][x] == player:
+            if y < properties.BOARD_HEIGHT and board[y][x] == player:
                 board[y][x] = board[y][x].upper()
             else:
                 break
@@ -157,9 +157,9 @@ def find_fours(board, prev_row, prev_col, player):
     # \
     # right
     count = 0
-    for x in range(prev_col, BOARD_WIDTH):
+    for x in range(prev_col, properties.BOARD_WIDTH):
         y = prev_row + (x - prev_col)
-        if y < BOARD_HEIGHT and board[y][x] == player:
+        if y < properties.BOARD_HEIGHT and board[y][x] == player:
             count += 1
         else:
             break
@@ -172,9 +172,9 @@ def find_fours(board, prev_row, prev_col, player):
             break
     # capitalize
     if count >= 4:
-        for x in range(prev_col, BOARD_WIDTH):
+        for x in range(prev_col, properties.BOARD_WIDTH):
             y = prev_row + (x - prev_col)
-            if y < BOARD_HEIGHT and board[y][x] == player:
+            if y < properties.BOARD_HEIGHT and board[y][x] == player:
                 board[y][x] = board[y][x].upper()
             else:
                 break
@@ -199,7 +199,7 @@ def count_sequences(board, player, length):
     """
     def vertical(row, col):
         count = 0
-        for row_index in range(row, BOARD_HEIGHT):
+        for row_index in range(row, properties.BOARD_HEIGHT):
             if board[row_index][col] == board[row][col]:
                 count += 1
             else:
@@ -210,7 +210,7 @@ def count_sequences(board, player, length):
 
     def horizontal(row, col):
         count = 0
-        for col_index in range(col, BOARD_WIDTH):
+        for col_index in range(col, properties.BOARD_WIDTH):
             if board[row][col_index] == board[row][col]:
                 count += 1
             else:
@@ -223,7 +223,7 @@ def count_sequences(board, player, length):
         count = 0
         col_index = col
         for row_index in range(row, -1, -1):
-            if col_index > BOARD_HEIGHT:
+            if col_index > properties.BOARD_HEIGHT:
                 break
             if board[row_index][col_index] == board[row][col]:
                 count += 1
@@ -237,8 +237,8 @@ def count_sequences(board, player, length):
     def positive_diagonal(row, col):
         count = 0
         col_index = col
-        for row_index in range(row, BOARD_HEIGHT):
-            if col_index > BOARD_HEIGHT:
+        for row_index in range(row, properties.BOARD_HEIGHT):
+            if col_index > properties.BOARD_HEIGHT:
                 break
             if board[row_index][col_index] == board[row][col]:
                 count += 1
@@ -250,8 +250,8 @@ def count_sequences(board, player, length):
         return 0
 
     total_count = 0
-    for row in range(BOARD_HEIGHT):
-        for col in range(BOARD_WIDTH):
+    for row in range(properties.BOARD_HEIGHT):
+        for col in range(properties.BOARD_WIDTH):
             if board[row][col] == player:
                 total_count += vertical(row, col)
                 total_count += horizontal(row, col)
@@ -279,10 +279,10 @@ def evaluate(board, player):
     :param player: Gracz na podstawie którego będzie liczona wartość.
     :return: Wartość aktualnego stanu planszy.
     """
-    if player == PLAYER:
-        opponent = ENEMY
+    if player == properties.PLAYER:
+        opponent = properties.ENEMY
     else:
-        opponent = PLAYER
+        opponent = properties.PLAYER
 
     player_score, _ = evaluate_player(board, player)
     opponent_score, opponent_fours = evaluate_player(board, opponent)
@@ -298,4 +298,4 @@ def is_game_over(board):
     :param board: Plansza którą będziemy sprawdzać
     :return: True, jesli gra jest skończona.
     """
-    return count_sequences(board, PLAYER, 4) >= 1 or count_sequences(board, ENEMY, 4) >= 1
+    return count_sequences(board, properties.PLAYER, 4) >= 1 or count_sequences(board, properties.ENEMY, 4) >= 1

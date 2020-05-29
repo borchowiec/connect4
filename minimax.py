@@ -2,19 +2,20 @@
 Zawiera algorytm minimax.
 """
 
-from board import *
-from random import shuffle
+import board
+import properties
+import random
 
 
-def minimax(board, depth):
+def minimax(current_board, depth):
     """
     Zwraca ruch wykonany przez przeciwnika.
-    :param board: Aktualna plansza.
+    :param current_board: Aktualna plansza.
     :param depth: Głębokość algorytmu.
     :return: Ruch wykonany przez przeciwnika.
     """
-    possible_moves = get_possible_moves(board)
-    shuffle(possible_moves)
+    possible_moves = board.get_possible_moves(current_board)
+    random.shuffle(possible_moves)
     best_move = possible_moves[0]
     best_score = float("-inf")
 
@@ -22,7 +23,7 @@ def minimax(board, depth):
     beta = float("inf")
 
     for move in possible_moves:
-        temp_board = make_move(board, move, ENEMY)[0]
+        temp_board = board.make_move(current_board, move, properties.ENEMY)[0]
         board_score = minimize(temp_board, depth - 1, alpha, beta)
         if board_score > best_score:
             best_score = board_score
@@ -30,32 +31,32 @@ def minimax(board, depth):
     return best_move
 
 
-def minimize(board, depth, alpha, beta):
-    possible_moves = get_possible_moves(board)
+def minimize(current_board, depth, alpha, beta):
+    possible_moves = board.get_possible_moves(current_board)
 
-    if depth == 0 or len(possible_moves) == 0 or is_game_over(board):
-        return evaluate(board, ENEMY)
+    if depth == 0 or len(possible_moves) == 0 or board.is_game_over(current_board):
+        return board.evaluate(current_board, properties.ENEMY)
 
     for move in possible_moves:
         score = float("inf")
         if alpha < beta:
-            temp_board = make_move(board, move, PLAYER)[0]
+            temp_board = board.make_move(current_board, move, properties.PLAYER)[0]
             score = maximize(temp_board, depth - 1, alpha, beta)
         if score < beta:
             beta = score
     return beta
 
 
-def maximize(board, depth, alpha, beta):
-    possible_moves = get_possible_moves(board)
+def maximize(current_board, depth, alpha, beta):
+    possible_moves = board.get_possible_moves(current_board)
 
-    if depth == 0 or len(possible_moves) == 0 or is_game_over(board):
-        return evaluate(board, ENEMY)
+    if depth == 0 or len(possible_moves) == 0 or board.is_game_over(current_board):
+        return board.evaluate(current_board, properties.ENEMY)
 
     for move in possible_moves:
         score = float("-inf")
         if alpha < beta:
-            temp_board = make_move(board, move, ENEMY)[0]
+            temp_board = board.make_move(current_board, move, properties.ENEMY)[0]
             score = minimize(temp_board, depth - 1, alpha, beta)
         if score > alpha:
             alpha = score

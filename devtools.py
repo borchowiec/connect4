@@ -4,16 +4,16 @@ Zawiera funkcje umożliwiające symulowanie pewnych sytuacji.
 
 import sys
 
-from board import is_column_valid, make_move, find_fours
-from gui import get_clicked_column
-from properties import BOARD_WIDTH, BOARD_HEIGHT, PLAYER, ENEMY
+import board
+import gui
+import properties
 
 
 def get_full_board():
     """
     :return: Pełna plansza.
     """
-    return [[PLAYER for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
+    return [[properties.PLAYER for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
 
 
 def get_game_over_board(winner):
@@ -22,17 +22,17 @@ def get_game_over_board(winner):
     :param winner: Gracz który wygra w wygenerowanej planszy.
     :return: Plansza w której podany gracz wygrywa.
     """
-    board = [[' ' for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
+    board = [[' ' for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
     for i in range(4):
-        board[BOARD_HEIGHT - 1][i] = winner
+        board[properties.BOARD_HEIGHT - 1][i] = winner
     return board
 
 
-def make_enemy_move(pygame, board):
+def make_enemy_move(pygame, current_board):
     """
     Oddaje kontrolę nad ruchami przeciwnika. Można zamienić tą funkcję z funkcją enemy_turn()
     :param pygame:
-    :param board:
+    :param current_board:
     :return: Planszę z wykonanym ruchem oraz, True jeśli wykonany ruch wygrał.
     """
     # wait for interaction
@@ -41,9 +41,9 @@ def make_enemy_move(pygame, board):
             if event.type == pygame.QUIT:
                 sys.exit(0)
             elif event.type == pygame.MOUSEBUTTONUP:
-                move = get_clicked_column(pygame.mouse.get_pos())
+                move = gui.get_clicked_column(pygame.mouse.get_pos())
 
-                if 0 <= move < BOARD_WIDTH and is_column_valid(board, move):
-                    board, row, col = make_move(board, move, ENEMY)
-                    enemy_victory = find_fours(board, row, col, ENEMY)
-                    return board, enemy_victory
+                if 0 <= move < properties.BOARD_WIDTH and board.is_column_valid(current_board, move):
+                    current_board, row, col = board.make_move(current_board, move, properties.ENEMY)
+                    enemy_victory = board.find_fours(current_board, row, col, properties.ENEMY)
+                    return current_board, enemy_victory
