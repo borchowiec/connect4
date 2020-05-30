@@ -38,21 +38,21 @@ class Gui:
                 y = properties.GAP * (i + 1) + i * properties.FIELD_SIZE
 
                 # uppercase character means winning move
-                if board[i][j].isupper():
+                if board.fields[i][j].isupper():
                     size = properties.FIELD_SIZE + properties.GAP * 2
                     self.pygame.draw.rect(self.screen, (34, 10, 209),
-                                     self.pygame.Rect(x - properties.GAP, y - properties.GAP, size, size))
-                    board[i][j] = board[i][j].lower()
+                                          self.pygame.Rect(x - properties.GAP, y - properties.GAP, size, size))
+                    board.fields[i][j] = board.fields[i][j].lower()
 
-                if board[i][j] == properties.PLAYER:
+                if board.fields[i][j] == properties.PLAYER:
                     self.pygame.draw.rect(self.screen, (255, 255, 0),
-                                     self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
-                elif board[i][j] == properties.ENEMY:
+                                          self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
+                elif board.fields[i][j] == properties.ENEMY:
                     self.pygame.draw.rect(self.screen, (255, 0, 0),
-                                     self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
+                                          self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
                 else:
                     self.pygame.draw.rect(self.screen, (255, 255, 255),
-                                     self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
+                                          self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
 
         self.pygame.display.flip()
 

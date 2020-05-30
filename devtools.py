@@ -3,7 +3,6 @@ Zawiera funkcje umożliwiające symulowanie pewnych sytuacji.
 """
 
 import sys
-import board
 import gui
 import properties
 
@@ -27,11 +26,10 @@ def get_game_over_board(winner):
     return result_board
 
 
-def make_enemy_move(pygame, current_board):
+def make_enemy_move(pygame, board):
     """
     Oddaje kontrolę nad ruchami przeciwnika. Można zamienić tą funkcję z funkcją enemy_turn()
     :param pygame:
-    :param current_board:
     :return: Planszę z wykonanym ruchem oraz, True jeśli wykonany ruch wygrał.
     """
     # wait for interaction
@@ -42,7 +40,7 @@ def make_enemy_move(pygame, current_board):
             elif event.type == pygame.MOUSEBUTTONUP:
                 move = gui.Gui.get_clicked_column(pygame.mouse.get_pos())
 
-                if 0 <= move < properties.BOARD_WIDTH and board.is_column_valid(current_board, move):
-                    current_board, row, col = board.make_move(current_board, move, properties.ENEMY)
-                    enemy_victory = board.find_fours(current_board, row, col, properties.ENEMY)
-                    return current_board, enemy_victory
+                if 0 <= move < properties.BOARD_WIDTH and board.is_column_valid(move):
+                    row, col = board.make_move(move, properties.ENEMY)
+                    enemy_victory = board.find_fours(row, col, properties.ENEMY)
+                    return enemy_victory

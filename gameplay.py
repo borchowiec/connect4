@@ -27,10 +27,10 @@ def player_turn(current_board):
             elif event.type == pygame.MOUSEBUTTONUP:
                 move = gui.Gui.get_clicked_column(pygame.mouse.get_pos())
 
-                if 0 <= move < properties.BOARD_WIDTH and board.is_column_valid(current_board, move):
-                    current_board, row, col = board.make_move(current_board, move, properties.PLAYER)
-                    player_victory = board.find_fours(current_board, row, col, properties.PLAYER)
-                    return current_board, player_victory
+                if 0 <= move < properties.BOARD_WIDTH and current_board.is_column_valid(move):
+                    row, col = current_board.make_move(move, properties.PLAYER)
+                    player_victory = current_board.find_fours(row, col, properties.PLAYER)
+                    return player_victory
 
 
 def enemy_turn(current_board):
@@ -40,9 +40,9 @@ def enemy_turn(current_board):
     :return: Plansza z wykonanym ruchem, oraz wartość True, jeśli wykonany ruch wygrał.
     """
     move = minimax.minimax(current_board, depth)
-    current_board, row, col = board.make_move(current_board, move, properties.ENEMY)
-    enemy_victory = board.find_fours(current_board, row, col, properties.ENEMY)
-    return current_board, enemy_victory
+    row, col = current_board.make_move(move, properties.ENEMY)
+    enemy_victory = current_board.find_fours(row, col, properties.ENEMY)
+    return enemy_victory
 
 
 def main():
@@ -54,7 +54,7 @@ def main():
 
     screen = pygame.display.set_mode((properties.SCREEN_WIDTH, properties.SCREEN_HEIGHT))
     font = pygame.font.SysFont("comicsansms", properties.FONT_SIZE)
-    current_board = board.create_empty_board()
+    current_board = board.Board()
     gui_tools = gui.Gui(screen, font, pygame)
 
     # Main loop
@@ -62,24 +62,24 @@ def main():
         gui_tools.paint_board(current_board)
 
         # Draw
-        if board.is_board_full(current_board):
+        if current_board.is_board_full():
             gui_tools.game_over(current_board, "Remis!")
-            current_board = board.create_empty_board()
+            current_board = board.Board()
             continue
 
         # Player
-        current_board, player_victory = player_turn(current_board)
+        player_victory = player_turn(current_board)
         if player_victory:
             gui_tools.game_over(current_board, "Wygrywa gracz!")
-            current_board = board.create_empty_board()
+            current_board = board.Board()
             continue
         gui_tools.paint_board(current_board)
 
         # Enemy
-        current_board, enemy_victory = enemy_turn(current_board)
+        enemy_victory = enemy_turn(current_board)
         if enemy_victory:
             gui_tools.game_over(current_board, "Wygrywa przeciwnik!")
-            current_board = board.create_empty_board()
+            current_board = board.Board()
             continue
 
 
