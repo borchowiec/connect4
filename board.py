@@ -53,6 +53,12 @@ class Board:
                 return False
         return True
 
+    def capitalize(self, squares):
+        for square in squares:
+            y = square[0]
+            x = square[1]
+            self.fields[y][x] = self.fields[y][x].upper()
+
     def find_fours(self, prev_row, prev_col, player):
         """
         Szuka sekwencji złożonych z przynajmniej czterech pionków jednego gracza. Jeśli jakaś sekwencja zostaje znaleziona,
@@ -64,119 +70,83 @@ class Board:
         :param player: Będą szukane sekwencje tylko podanego gracza.
         :return: True, jeśli znaleziono sekwencje.
         """
-        count = 0
 
+        squares = []
         # vertical
-        for y in range(prev_row,
-                       properties.BOARD_HEIGHT):  # w tym przypadku wystarczy policzyć od ostatniego ruchu, w dół
+        for y in range(prev_row, properties.BOARD_HEIGHT):
+            # w tym przypadku wystarczy policzyć od ostatniego ruchu, w dół
             if self.fields[y][prev_col] == player:
-                count += 1
+                squares.append((y, prev_col))
             else:
                 break
         # capitalize
-        if count >= 4:
-            for y in range(prev_row, prev_row + count):
-                self.fields[y][prev_col] = self.fields[y][prev_col].upper()
+        if len(squares) >= 4:
+            self.capitalize(squares)
             return True
 
         # sprawdzanie polega na policzeniu pionków gracza w jednym kierunku od wykonanego ruchu i w drugim.
         # Np. jeśli szukamy horyzontalnie to najpierw liczymy w prawo, a potem w lewo.
-        # Następnie jeśli znajdziemy sekwencję, oznaczamy pionki i zwracamy True
+        # Następnie jeśli znajdziemy sekwencję, oznaczamy kwadraty i zwracamy True
 
         # horizontal
         # right
-        count = 0
+        squares = []
         for x in range(prev_col, properties.BOARD_WIDTH):
             if self.fields[prev_row][x] == player:
-                count += 1
+                squares.append((prev_row, x))
             else:
                 break
         # left
         for x in range(prev_col - 1, -1, -1):
             if self.fields[prev_row][x] == player:
-                count += 1
+                squares.append((prev_row, x))
             else:
                 break
         # capitalize
-        if count >= 4:
-            # right
-            for x in range(prev_col, properties.BOARD_WIDTH):
-                if self.fields[prev_row][x] == player:
-                    self.fields[prev_row][x] = self.fields[prev_row][x].upper()
-                else:
-                    break
-            # left
-            for x in range(prev_col - 1, -1, -1):
-                if self.fields[prev_row][x] == player:
-                    self.fields[prev_row][x] = self.fields[prev_row][x].upper()
-                else:
-                    break
+        if len(squares) >= 4:
+            self.capitalize(squares)
             return True
 
         # /
         # right
-        count = 0
+        squares = []
         for x in range(prev_col, properties.BOARD_WIDTH):
             y = prev_row - (x - prev_col)
             if y >= 0 and self.fields[y][x] == player:
-                count += 1
+                squares.append((y, x))
             else:
                 break
         # left
         for x in range(prev_col - 1, -1, -1):
             y = prev_row + (prev_col - x)
             if y < properties.BOARD_HEIGHT and self.fields[y][x] == player:
-                count += 1
+                squares.append((y, x))
             else:
                 break
         # capitalize
-        if count >= 4:
-            for x in range(prev_col, properties.BOARD_WIDTH):
-                y = prev_row - (x - prev_col)
-                if y >= 0 and self.fields[y][x] == player:
-                    self.fields[y][x] = self.fields[y][x].upper()
-                else:
-                    break
-            # left
-            for x in range(prev_col - 1, -1, -1):
-                y = prev_row + (prev_col - x)
-                if y < properties.BOARD_HEIGHT and self.fields[y][x] == player:
-                    self.fields[y][x] = self.fields[y][x].upper()
-                else:
-                    break
+        if len(squares) >= 4:
+            self.capitalize(squares)
             return True
 
         # \
         # right
-        count = 0
+        squares = []
         for x in range(prev_col, properties.BOARD_WIDTH):
             y = prev_row + (x - prev_col)
             if y < properties.BOARD_HEIGHT and self.fields[y][x] == player:
-                count += 1
+                squares.append((y, x))
             else:
                 break
         # left
         for x in range(prev_col - 1, -1, -1):
             y = prev_row - (prev_col - x)
             if y >= 0 and self.fields[y][x] == player:
-                count += 1
+                squares.append((y, x))
             else:
                 break
         # capitalize
-        if count >= 4:
-            for x in range(prev_col, properties.BOARD_WIDTH):
-                y = prev_row + (x - prev_col)
-                if y < properties.BOARD_HEIGHT and self.fields[y][x] == player:
-                    self.fields[y][x] = self.fields[y][x].upper()
-                else:
-                    break
-            # left
-            for x in range(prev_col - 1, -1, -1):
-                y = prev_row - (prev_col - x)
-                if y >= 0 and self.fields[y][x] == player:
-                    self.fields[y][x] = self.fields[y][x].upper()
-                else:
-                    break
+        if len(squares) >= 4:
+            self.capitalize(squares)
             return True
         return False
 
