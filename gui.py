@@ -8,6 +8,7 @@ import properties
 COLORS = {
     'background': (0, 43, 53),
     'highlights': (238, 232, 213),
+    'font_color': (253, 246, 227),
     properties.EMPTY: (253, 246, 227),
     properties.PLAYER: (181, 137, 0),
     properties.ENEMY: (220, 50, 47)
@@ -54,7 +55,6 @@ class Gui:
 
                 self.pygame.draw.rect(self.screen, COLORS[board.fields[i][j]],
                                           self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
-
         self.pygame.display.flip()
 
     def game_over(self, board, message):
@@ -66,9 +66,17 @@ class Gui:
         """
         # print message and wait
         self.paint_board(board)
-        text = self.font.render(message, True, (0, 0, 0))
+        text = self.font.render(message, True, COLORS['font_color'])
         x = (properties.SCREEN_WIDTH - text.get_width()) // 2
         y = (properties.SCREEN_HEIGHT - text.get_height()) // 2
+
+        # box
+        s = self.pygame.Surface((text.get_width(), text.get_height()))
+        s.set_alpha(128)
+        s.fill((0, 0, 0))
+        self.screen.blit(s, (x, y))
+
+        # text
         self.screen.blit(text, (x, y))
         self.pygame.display.flip()
 
