@@ -5,13 +5,14 @@ Zawiera funkcje umożliwiające symulowanie pewnych sytuacji.
 import sys
 import gui
 import properties
+import board
 
 
 def get_full_board():
     """
     :return: Pełna plansza.
     """
-    return [[properties.PLAYER for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
+    return board.generate_fields(properties.PLAYER)
 
 
 def get_game_over_board(winner):
@@ -20,7 +21,7 @@ def get_game_over_board(winner):
     :param winner: Gracz który wygra w wygenerowanej planszy.
     :return: Plansza w której podany gracz wygrywa.
     """
-    result_board = [[' ' for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
+    result_board = board.generate_fields(properties.EMPTY)
     for i in range(4):
         result_board[properties.BOARD_HEIGHT - 1][i] = winner
     return result_board

@@ -5,13 +5,17 @@ Zawiera funkcje które operują na planszy.
 import properties
 
 
+def generate_fields(field):
+    return [[field for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
+
+
 class Board:
     def __init__(self):
         """
         Tworzy pustą tablicę o wymiarach określonych w properties.py
         :return: Pusta plansza
         """
-        self.fields = [[' ' for _ in range(properties.BOARD_WIDTH)] for _ in range(properties.BOARD_HEIGHT)]
+        self.fields = generate_fields(properties.EMPTY)
 
     def is_column_valid(self, col):
         """
@@ -19,7 +23,7 @@ class Board:
         :param col: kolumna która będzie sprawdzana
         :return: True, jeśli kolumna ma wolne miejsce
         """
-        if self.fields[0][col] == ' ':  # wystarczy sprawdzić czy kolumna jest pusta na samej górze
+        if self.fields[0][col] == properties.EMPTY:  # wystarczy sprawdzić czy kolumna jest pusta na samej górze
             return True
         return False
 
@@ -38,7 +42,7 @@ class Board:
         :return: Planszę z wykonanym ruchem. Plansza jest kopią.
         """
         for row in range(5, -1, -1):
-            if self.fields[row][col] == ' ':  # szuka od dołu pustego pola
+            if self.fields[row][col] == properties.EMPTY:  # szuka od dołu pustego pola
                 self.fields[row][col] = player
                 return row, col
 
@@ -49,7 +53,7 @@ class Board:
         """
         for col in range(properties.BOARD_WIDTH):
             # jeśli wszystkie pola na samej górze planszy są pełne, to plansza jest pełna
-            if self.fields[0][col] == ' ':
+            if self.fields[0][col] == properties.EMPTY:
                 return False
         return True
 
