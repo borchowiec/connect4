@@ -5,6 +5,14 @@ Zawiera funkcje które rysują elementy gry.
 import sys
 import properties
 
+COLORS = {
+    'background': (0, 43, 53),
+    'highlights': (238, 232, 213),
+    properties.EMPTY: (253, 246, 227),
+    properties.PLAYER: (181, 137, 0),
+    properties.ENEMY: (220, 50, 47)
+}
+
 
 class Gui:
     def __init__(self, screen, font, pygame):
@@ -29,7 +37,7 @@ class Gui:
         """
 
         # background
-        self.screen.fill((0, 150, 255))
+        self.screen.fill(COLORS['background'])
 
         # paint all squares
         for j in range(properties.BOARD_WIDTH):
@@ -40,18 +48,11 @@ class Gui:
                 # uppercase character means winning move
                 if board.fields[i][j].isupper():
                     size = properties.FIELD_SIZE + properties.GAP * 2
-                    self.pygame.draw.rect(self.screen, (34, 10, 209),
+                    self.pygame.draw.rect(self.screen, COLORS['highlights'],
                                           self.pygame.Rect(x - properties.GAP, y - properties.GAP, size, size))
                     board.fields[i][j] = board.fields[i][j].lower()
 
-                if board.fields[i][j] == properties.PLAYER:
-                    self.pygame.draw.rect(self.screen, (255, 255, 0),
-                                          self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
-                elif board.fields[i][j] == properties.ENEMY:
-                    self.pygame.draw.rect(self.screen, (255, 0, 0),
-                                          self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
-                else:
-                    self.pygame.draw.rect(self.screen, (255, 255, 255),
+                self.pygame.draw.rect(self.screen, COLORS[board.fields[i][j]],
                                           self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
 
         self.pygame.display.flip()
