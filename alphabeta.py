@@ -3,11 +3,12 @@ Zawiera algorytm minimax.
 """
 
 import copy
+import math
 import properties
 import random
 
 
-def minimax(current_board, depth):
+def alphabeta(current_board, depth):
     """
     Zwraca ruch wykonany przez przeciwnika.
     :param current_board: Aktualna plansza.
@@ -17,10 +18,10 @@ def minimax(current_board, depth):
     possible_moves = current_board.get_possible_moves()
     random.shuffle(possible_moves)
     best_move = possible_moves[0]
-    best_score = -1e500
+    best_score = -math.inf
 
-    alpha = -1e500
-    beta = 1e500
+    alpha = -math.inf
+    beta = math.inf
 
     for move in possible_moves:
         temp_board = copy.deepcopy(current_board)
@@ -39,7 +40,7 @@ def minimize(current_board, depth, alpha, beta):
         return current_board.evaluate(properties.ENEMY)
 
     for move in possible_moves:
-        score = 1e500
+        score = math.inf
         if alpha < beta:
             temp_board = copy.deepcopy(current_board)
             temp_board.make_move(move, properties.PLAYER)
@@ -56,7 +57,7 @@ def maximize(current_board, depth, alpha, beta):
         return current_board.evaluate(properties.ENEMY)
 
     for move in possible_moves:
-        score = -1e500
+        score = -math.inf
         if alpha < beta:
             temp_board = copy.deepcopy(current_board)
             temp_board.make_move(move, properties.ENEMY)

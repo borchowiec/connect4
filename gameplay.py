@@ -5,7 +5,7 @@ import sys
 import pygame
 import properties
 import gui
-import minimax
+import alphabeta
 import board
 
 # głębokość algorytmu minimax
@@ -39,7 +39,7 @@ def enemy_turn(current_board):
     :param current_board: Aktualna plansza.
     :return: Plansza z wykonanym ruchem, oraz wartość True, jeśli wykonany ruch wygrał.
     """
-    move = minimax.minimax(current_board, depth)
+    move = alphabeta.alphabeta(current_board, depth)
     row, col = current_board.make_move(move, properties.ENEMY)
     enemy_victory = current_board.find_fours(row, col, properties.ENEMY)
     return enemy_victory
