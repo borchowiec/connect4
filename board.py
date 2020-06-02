@@ -41,7 +41,7 @@ class Board:
         :param player: Gracz który wykona ruch.
         :return: Planszę z wykonanym ruchem. Plansza jest kopią.
         """
-        for row in range(5, -1, -1):
+        for row in range(properties.BOARD_HEIGHT - 1, -1, -1):
             if self.fields[row][col] == properties.EMPTY:  # szuka od dołu pustego pola
                 self.fields[row][col] = player
                 return row, col

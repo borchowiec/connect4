@@ -23,7 +23,8 @@ def get_game_over_board(winner):
     :return: Plansza w której podany gracz wygrywa.
     """
     result_board = board.generate_fields(properties.EMPTY)
-    for i in range(4):
+    fields_in_row = 4
+    for i in range(fields_in_row):
         result_board[properties.BOARD_HEIGHT - 1][i] = winner
     return result_board
 
