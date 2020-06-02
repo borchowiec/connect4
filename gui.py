@@ -6,13 +6,19 @@ import sys
 
 import properties
 
-COLORS = {
-    'background': (0, 43, 53),
-    'highlights': (238, 232, 213),
-    'font_color': (253, 246, 227),
-    properties.EMPTY: (253, 246, 227),
-    properties.PLAYER: (181, 137, 0),
-    properties.ENEMY: (220, 50, 47)
+
+class Colors:
+    BLACK = (0, 43, 54)
+    WHITE = (238, 232, 213)
+    LIGHTER_WHITE = (253, 246, 227)
+    YELLOW = (181, 137, 0)
+    RED = (220, 50, 47)
+
+
+FIELD_COLORS = {
+    properties.EMPTY: Colors.LIGHTER_WHITE,
+    properties.PLAYER: Colors.YELLOW,
+    properties.ENEMY: Colors.RED
 }
 
 
@@ -39,7 +45,7 @@ class Gui:
         """
 
         # background
-        self.screen.fill(COLORS['background'])
+        self.screen.fill(Colors.BLACK)
 
         # paint all squares
         for j in range(properties.BOARD_WIDTH):
@@ -50,12 +56,12 @@ class Gui:
                 # uppercase character means winning move
                 if board.fields[i][j].isupper():
                     size = properties.FIELD_SIZE + properties.GAP * 2
-                    self.pygame.draw.rect(self.screen, COLORS['highlights'],
+                    self.pygame.draw.rect(self.screen, Colors.WHITE,
                                           self.pygame.Rect(x - properties.GAP, y - properties.GAP, size, size))
                     board.fields[i][j] = board.fields[i][j].lower()
 
-                self.pygame.draw.rect(self.screen, COLORS[board.fields[i][j]],
-                                          self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
+                self.pygame.draw.rect(self.screen, FIELD_COLORS[board.fields[i][j]],
+                                      self.pygame.Rect(x, y, properties.FIELD_SIZE, properties.FIELD_SIZE))
         self.pygame.display.flip()
 
     def game_over(self, board, message):
@@ -67,7 +73,7 @@ class Gui:
         """
         # print message and wait
         self.paint_board(board)
-        text = self.font.render(message, True, COLORS['font_color'])
+        text = self.font.render(message, True, Colors.LIGHTER_WHITE)
         x = (properties.SCREEN_WIDTH - text.get_width()) // 2
         y = (properties.SCREEN_HEIGHT - text.get_height()) // 2
 
