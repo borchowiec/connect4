@@ -4,8 +4,9 @@ Zawiera algorytm minimax.
 
 import copy
 import math
-import properties
 import random
+
+import properties
 
 
 def alphabeta(current_board, depth):

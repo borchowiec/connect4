@@ -3,6 +3,7 @@ Zawiera funkcje które rysują elementy gry.
 """
 
 import sys
+
 import properties
 
 COLORS = {

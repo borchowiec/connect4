@@ -3,9 +3,10 @@ Zawiera funkcje umożliwiające symulowanie pewnych sytuacji.
 """
 
 import sys
+
+import board
 import gui
 import properties
-import board
 
 
 def get_full_board():

@@ -1,12 +1,13 @@
 """
 Plik startowy. Zawiera funkcje związane z gameplayem np wykonywanie ruchów.
 """
-import sys
 import pygame
-import properties
-import gui
+import sys
+
 import alphabeta
 import board
+import gui
+import properties
 
 # głębokość algorytmu minimax
 depth = 4
