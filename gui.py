@@ -8,17 +8,18 @@ import properties
 
 
 class Colors:
-    BLACK = (0, 43, 54)
-    WHITE = (238, 232, 213)
-    LIGHTER_WHITE = (253, 246, 227)
-    YELLOW = (181, 137, 0)
-    RED = (220, 50, 47)
+    BACKGROUND = (0, 43, 54)
+    HIGHLIGHT = (238, 232, 213)
+    EMPTY_FIELD = (253, 246, 227)
+    FONT = (253, 246, 227)
+    PLAYER = (181, 137, 0)
+    ENEMY = (220, 50, 47)
 
 
 FIELD_COLORS = {
-    properties.EMPTY: Colors.LIGHTER_WHITE,
-    properties.PLAYER: Colors.YELLOW,
-    properties.ENEMY: Colors.RED
+    properties.EMPTY: Colors.EMPTY_FIELD,
+    properties.PLAYER: Colors.PLAYER,
+    properties.ENEMY: Colors.ENEMY
 }
 
 
@@ -45,7 +46,7 @@ class Gui:
         """
 
         # background
-        self.screen.fill(Colors.BLACK)
+        self.screen.fill(Colors.BACKGROUND)
 
         # paint all squares
         for j in range(properties.BOARD_WIDTH):
@@ -56,7 +57,7 @@ class Gui:
                 # uppercase character means winning move
                 if board.fields[i][j].isupper():
                     size = properties.FIELD_SIZE + properties.GAP * 2
-                    self.pygame.draw.rect(self.screen, Colors.WHITE,
+                    self.pygame.draw.rect(self.screen, Colors.FONT,
                                           self.pygame.Rect(x - properties.GAP, y - properties.GAP, size, size))
                     board.fields[i][j] = board.fields[i][j].lower()
 
@@ -73,7 +74,7 @@ class Gui:
         """
         # print message and wait
         self.paint_board(board)
-        text = self.font.render(message, True, Colors.LIGHTER_WHITE)
+        text = self.font.render(message, True, Colors.EMPTY_FIELD)
         x = (properties.SCREEN_WIDTH - text.get_width()) // 2
         y = (properties.SCREEN_HEIGHT - text.get_height()) // 2
 
