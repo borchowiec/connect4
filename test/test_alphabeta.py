@@ -5,7 +5,7 @@ import board
 import properties
 
 
-class Test(unittest.TestCase):
+class AlphabetaTest(unittest.TestCase):
     def test_alphabeta(self):
         current_board = board.Board()
         current_board.fields[properties.BOARD_HEIGHT - 1][0] = properties.ENEMY
@@ -18,3 +18,7 @@ class Test(unittest.TestCase):
 
         expected = 3
         self.assertEqual(expected, alphabeta.alphabeta(current_board, 4))
+
+
+if __name__ == '__main__':
+    unittest.main()

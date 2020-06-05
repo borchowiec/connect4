@@ -4,7 +4,7 @@ import board
 import properties
 
 
-class TestBoard(unittest.TestCase):
+class BoardTest(unittest.TestCase):
     def setUp(self):
         self.board = board.Board()
 
@@ -82,3 +82,7 @@ class TestBoard(unittest.TestCase):
 
         self.board.fields = board.generate_fields(properties.EMPTY)
         self.assertFalse(self.board.is_game_over())
+
+
+if __name__ == '__main__':
+    unittest.main()
