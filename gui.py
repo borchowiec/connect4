@@ -9,7 +9,7 @@ import properties
 
 class Colors:
     BACKGROUND = (0, 43, 54)
-    HIGHLIGHT = (238, 232, 213)
+    BACK_LIGHT = (238, 232, 213)
     EMPTY_FIELD = (253, 246, 227)
     FONT = (253, 246, 227)
     PLAYER = (181, 137, 0)
